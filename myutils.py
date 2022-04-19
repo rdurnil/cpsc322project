@@ -90,6 +90,15 @@ def perform_classification_on_folds(classifier, x_train, y_train, x_test, y_test
     return y_pred, y_true
 
 def perform_analysis_on_classification(y_true, y_pred, unique_labels, matrix_title, pos_label=None):
+    # matrix_title = ["Team","H", "A", "Total", "Recongnition (%)"]
+    # This is an example of what the title needs to look like for the confusion matrix
+    # the H and A are the unique values in the lables. Normally I just hard-coded them 
+    # but we probably need a code solution 
+    # This would probably work:
+    #   matrix_title = ["Ozone Classification"]
+    #   matirx_title.extend(unique_labels)
+    #   matrix_title.extend(["Total", "Recongnition (%)"]) 
+    # This will probabily go prior to passing in the values 
     """Calculates the values neccesary to determine if the classifier is working correctly
         Args:
             y_true (list of obj): the expected values for the class
