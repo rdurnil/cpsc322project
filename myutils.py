@@ -1,5 +1,6 @@
 from mypytable import MyPyTable
 import matplotlib.pyplot as plt
+import myevaluation
 
 def ozone_assigning(ozone_value):
     """Classifies a mpg list into the levels
@@ -66,3 +67,43 @@ def count_unique_items(data_set, unique_items):
                 num_this_item += 1
         count_list.append(num_this_item)
     return count_list
+
+def perform_classification_on_folds(classifier, x_train, y_train, x_test, y_test):
+    """Classifies the data using the given datasets
+        Args:
+            classifier (obj): the classifier to predict with
+            x_train (list of obj): the training attributes
+            y_train (list of obj): the training classes
+            x_test (list of obj): the testing attributes
+            y_test (list of obj): the testing classes
+        Returns:
+            y_pred (list of obj): the classes predicted by the classifier
+            y_true (list of obj): the expected classes
+    """
+    y_pred = []
+    y_true = []
+    for i, _ in enumerate(x_train):
+        classifier.fit(x_train[i], y_train[i])
+        temp_y_pred = classifier.predict(x_test[i])
+        y_pred.extend(temp_y_pred)
+        y_true.extend(y_test[i])
+    return y_pred, y_true
+
+def perform_analysis_on_classification(y_true, y_pred, unique_labels, matrix_title, pos_label=None):
+    """Calculates the values neccesary to determine if the classifier is working correctly
+        Args:
+            y_true (list of obj): the expected values for the class
+            y_pred (list of obj): the values predicted by the classifier
+            unique_labels (list of obj): the possible results for the y values
+            matrix_title (list of obj): the title that goes at the top of the tabulated table
+            pos_label (obj): the object from the unique labels that is the positive classification
+                if none, it will be the first item in the unique_labels
+    """
+    print("Accuracy: ", myevaluation.accuracy_score(y_true, y_pred, normalize=True))
+    print("Error Rate: ", myevaluation.error_rate(y_true, y_pred, normalize=True))
+    print("Precision: ", myevaluation.binary_precision_score(y_true, y_pred, unique_labels, pos_label))
+    print("Recall: ", myevaluation.binary_recall_score(y_true, y_pred, unique_labels, pos_label))
+    print("F1 measure: ", myevaluation.binary_f1_score(y_true, y_pred, unique_labels, pos_label))
+    print("Confusion Matrix")
+    print("-------------------------------")
+    print(myevaluation.create_matrix_table(y_true, y_pred, unique_labels, matrix_title))
