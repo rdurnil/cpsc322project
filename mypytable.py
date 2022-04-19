@@ -214,7 +214,7 @@ class MyPyTable:
         for i in range(len(col_names)):
             col = self.get_column(col_names[i])
             if len(col) > 0:
-                remove_missing_values(col)
+                self.remove_missing_values(col)
                 col.sort()
                 summary_table.append([])
                 summary_table[i].append(col_names[i])
@@ -351,18 +351,49 @@ class MyPyTable:
         for i in range(len(self.data)):
             self.data[i].append(col[i])
 
+    def remove_missing_values(self, list_vals):
+        """Remove data from a single column (1D list) that contain a missing value ("NA").
 
-def remove_missing_values(list_vals):
-    """Remove data from a single column (1D list) that contain a missing value ("NA").
+        Args:
+            col(list): the 1D list to remove missing values from.
+        """
+        remove_indexes = []
+        for i in range(len(list_vals)):
+            if list_vals[i] == "NA":
+                remove_indexes.append(i)
+        remove_indexes.sort(reverse=True)
+        for index in remove_indexes:
+            list_vals.pop(index)
 
-    Args:
-        col(list): the 1D list to remove missing values from.
-    """
-    remove_indexes = []
-    for i in range(len(list_vals)):
-        if list_vals[i] == "NA":
-            remove_indexes.append(i)
-    remove_indexes.sort(reverse=True)
-    for index in remove_indexes:
-        list_vals.pop(index)
+    def get_multiple_columns(self, col_identify, missing_var, include_missing_values=True):
+        """Gets multiple columns from the data and puts them in a new MyPyTable
+            Args:
+                col_identify (list): the columns that are being gotten
+                missing_var (char or String): the identifier of a missing value
+                include_missing_value (bool): determines whether rows with missing values are to be gotten
+            Returns:
+                a new MyPyTable of the chosen columns
+        """
+        col_indices = []
+        temp_table = []
+        temp_header = []
+        for i,_ in enumerate(col_identify):
+            col_indices.append(self.column_names.index(col_identify[i]))
+            temp_header.append(col_identify[i])
+        for i, row in enumerate(self.data):
+            new_row = []
+            exist_data = 0
+            for j,_ in enumerate(col_indices):
+                if row[col_indices[j]] != missing_var:
+                    exist_data += 0
+                elif row[col_indices[j]] == missing_var and include_missing_values is True:
+                    exist_data += 0
+                else:
+                    exist_data += 1
+            if exist_data == 0:
+                for k,_ in enumerate(col_indices):
+                    new_row.append(row[col_indices[k]])
+                temp_table.append(new_row)
+        new_table = MyPyTable(temp_header, temp_table)
+        return new_table
         
