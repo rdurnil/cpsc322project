@@ -1,0 +1,1 @@
+from mypytable import MyPyTable
