@@ -179,7 +179,7 @@ class MyPyTable:
         to_remove = []
         for i in range(len(self.data)):
             for j in range(len(self.column_names)):
-                if self.data[i][j] == "NA":
+                if self.data[i][j] == "":
                     if len(to_remove) == 0 or to_remove[-1] != i:
                         to_remove.append(i)
         to_remove.sort(reverse=True)
