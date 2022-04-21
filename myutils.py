@@ -1,6 +1,9 @@
 from mypytable import MyPyTable
 import matplotlib.pyplot as plt
+import numpy as np
 import myevaluation
+import copy
+import operator
 
 def ozone_assigning(ozone_value):
     """Classifies a mpg list into the levels
@@ -108,6 +111,8 @@ def perform_analysis_on_classification(y_true, y_pred, unique_labels, matrix_tit
             pos_label (obj): the object from the unique labels that is the positive classification
                 if none, it will be the first item in the unique_labels
     """
+    matrix_title.extend(unique_labels)
+    matrix_title.extend(["Total", "Recongnition (%)"]) 
     print("Accuracy: ", myevaluation.accuracy_score(y_true, y_pred, normalize=True))
     print("Error Rate: ", myevaluation.error_rate(y_true, y_pred, normalize=True))
     print("Precision: ", myevaluation.binary_precision_score(y_true, y_pred, unique_labels, pos_label))
@@ -116,3 +121,105 @@ def perform_analysis_on_classification(y_true, y_pred, unique_labels, matrix_tit
     print("Confusion Matrix")
     print("-------------------------------")
     print(myevaluation.create_matrix_table(y_true, y_pred, unique_labels, matrix_title))
+
+def randomize_in_place(alist, parallel_list=None):
+    """Randomizes two parallel lists (or just a single list), keeping them parallel.
+
+    Args:
+        alist (list of objects): the first list to randomize.
+        parallel_list (list of objexts): the optional second list to maintain parallel.
+    """
+    for i in range(len(alist)):
+        rand_index = np.random.randint(0, len(alist))
+        alist[i], alist[rand_index] = alist[rand_index], alist[i]
+        if parallel_list is not None:
+            parallel_list[i], parallel_list[rand_index] = parallel_list[rand_index], parallel_list[i]
+
+def sort_in_place(a_list, parallel_list):
+    """Sorts a list while keeping it parallel to another list
+
+    Args:
+        a_list(list of obj): The list to sort.
+        parallel_list(list of obj): The list to keep parallel.
+    """
+    paired = []
+    for i in range(len(a_list)):
+        paired.append([a_list[i], parallel_list[i]])
+    paired.sort(key=operator.itemgetter(0))
+    for i in range(len(a_list)):
+        a_list[i] = paired[i][0]
+        parallel_list[i] = paired[i][1]
+
+def group_by(X, y):
+    """Groups a table of X values by category of correspoding y values.
+
+    Args:
+        X (list of list of objects): the X values.
+        y (list): the parallel list of y values to group by.
+
+    Returns:
+        group_names (list of objects): The list of groups.
+        group_subtables (list of list of list of objects): The list of lists of X values
+            grouped by y value, parallel to group_names.
+    """
+    X_copy = copy.deepcopy(X)
+    y_copy = copy.deepcopy(y)
+    sort_in_place(y_copy, X_copy)
+    group_names = [y_copy[0]]
+    group_subtables = [[X_copy[0]]]
+    for i in range(1, len(X)):
+        if group_names[-1] == y_copy[i]:
+            group_subtables[-1].append(X_copy[i])
+        else:
+            group_names.append(y_copy[i])
+            group_subtables.append([X_copy[i]])
+    return group_names, group_subtables
+
+
+def group_by_for_trimming(X, y):
+    """Groups a table of X values by category of correspoding y values.
+
+    Args:
+        X (list of list of objects): the X values.
+        y (list): the parallel list of y values to group by.
+
+    Returns:
+        group_names (list of objects): The list of groups.
+        group_subtables (list of list of list of objects): The list of lists of X values
+            grouped by y value, parallel to group_names.
+    """
+    indices = np.arange(0, len(X))
+    X_copy = copy.deepcopy(X)
+    X_copy_rows = [[indices[i]] + X_copy[i] for i in range(len(X_copy))]
+    y_copy = copy.deepcopy(y)
+    sort_in_place(y_copy, X_copy_rows)
+    group_names = [y_copy[0]]
+    group_subtables = [[X_copy_rows[0]]]
+    for i in range(1, len(X)):
+        if group_names[-1] == y_copy[i]:
+            group_subtables[-1].append(X_copy_rows[i])
+        else:
+            group_names.append(y_copy[i])
+            group_subtables.append([X_copy_rows[i]])
+    return group_names, group_subtables
+
+def compute_distance(v1, v2):
+    """Computes the euclidean distance between two sets of continuous data
+        or if data is categorical, assigns 1 if instances are equal and 0
+        otherwise.
+
+    Args:
+        v1 (list of double): one of the sets of data.
+        v2 (list of double): the second set of data.
+
+    Returns:
+        double: The distance between the two.
+    """
+    dist_squared_sum = 0
+    for i in range(len(v1)):
+        if isinstance(v1[i], str):
+            if v1[i] != v2[i]:
+                dist_squared_sum += 1
+        else:
+            dist_squared_sum += (v1[i] - v2[i]) ** 2
+    return np.sqrt(dist_squared_sum)
