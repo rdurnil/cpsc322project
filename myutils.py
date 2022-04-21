@@ -223,3 +223,30 @@ def compute_distance(v1, v2):
         else:
             dist_squared_sum += (v1[i] - v2[i]) ** 2
     return np.sqrt(dist_squared_sum)
+
+def find_smallest_value(value_list):
+    """Searches a list and returns the index of the smallest value
+        Args: value_list (list of str or float): the list that is being searched
+    """
+    smallest_index = 0
+    smallest_value = value_list[smallest_index]
+    for i in range(1, len(value_list)):
+        if smallest_value >= value_list[i]:
+            smallest_index = i
+            smallest_value = value_list[i]
+    return smallest_index
+
+def find_largest_value(value_list):
+    """Iterates through a list of values to find the largest value and return the index
+        Args:
+            prob_list (list of float): the list that is being searched
+        Returns:
+            largest_value (int): the index of the largest value
+    """
+    largest_value = value_list[0]
+    index_of_largest_value = 0
+    for i in range(1, len(value_list)):
+        if largest_value < value_list[i]:
+            largest_value = value_list[i]
+            index_of_largest_value = i
+    return index_of_largest_value
