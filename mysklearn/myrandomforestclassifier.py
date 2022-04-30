@@ -6,10 +6,6 @@ class MyRandomForestClassifier:
         n_values(int): the number of "weak" classifiers
         m_values(int): the number of "better" learners
         f_values(int): the number of random attribute subsets
-    Notes:
-        Loosely based on sklearn's LinearRegression:
-            https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html
-        Terminology: instance = sample = row and attribute = feature = column
     """
     def __init__(self, n_val=100, m_val=10, f_val=2):
         """Initializer for MyRandomForestClassifier.
