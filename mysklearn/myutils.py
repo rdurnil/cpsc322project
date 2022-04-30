@@ -1,7 +1,7 @@
-from mypytable import MyPyTable
+from mysklearn.mypytable import MyPyTable
 import matplotlib.pyplot as plt
 import numpy as np
-import myevaluation
+from mysklearn import myevaluation
 import copy
 import operator
 

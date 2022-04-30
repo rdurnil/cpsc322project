@@ -1,8 +1,8 @@
 import math
 import operator
 import numpy as np
-import myutils
-from mypytable import MyPyTable
+from mysklearn import myutils
+from mysklearn.mypytable import MyPyTable
 
 
 class MyDecisionTreeClassifier:
