@@ -1,6 +1,6 @@
 import copy
 import numpy as np
-import myutils as myutils
+from mysklearn import myutils
 
 def train_test_split(X, y, test_size=0.33, random_state=None, shuffle=True):
     """Split dataset into train and test sets based on a test set size.
@@ -256,72 +256,6 @@ def find_eval_nums_for_k_fold(classifier, k, X, y, stratified=False):
     recall = binary_recall_score(entire_y_test, entire_y_pred)
     f1 = binary_f1_score(entire_y_test, entire_y_pred)
     return accuracy / len(X), precision, recall, f1
-
-def create_confusion_matrix_with_k_fold(k, knn_k, X, y, labels):
-    """Creates the confusion matrix for stratified k-fold cross validation for the
-        kNN, Naive Bayes, and Dummy classifiers.
-
-    Args:
-        k (int): the number of times to train/test.
-        X (list of list of objects): the X data.
-        y (list of objects): the y data (parallel to X).
-        labels (list of objects): the labels of the categories in the y data.
-
-    Returns:
-        knn_confusion_matrix (list of list of objects): the confusion matrix for the kNN classification
-            complete with class labels on the rows, totals, and recognition (%).
-        naive_confusion_matrix (list of list of objects): the confusion matrix for the Naive Bayes
-            classification completer with class labels on the rows, totals, and recognition (%).
-        dummy_confusion_matrix (list of list of objects): the confusion matrix for the Dummy classification
-            complete with class labels on the rows, totals, and recognition (%).
-        tree_confusion_matrix (list of list of objects): the confusion matrix for the Decision Tree
-            classification complete with class labels on the rows, totals, and recognition (%).
-    """
-    X_train_folds, X_test_folds = stratified_kfold_cross_validation(X, y, k, 0, True)
-    entire_y_test = []
-    entire_knn_y_pred = []
-    entire_naive_y_pred = []
-    entire_dummy_y_pred = []
-    entire_tree_y_pred = []
-    for i in range(k):
-        X_train = [X[j] for j in X_train_folds[i]]
-        y_train = [y[j] for j in X_train_folds[i]]
-        X_test = [X[k] for k in X_test_folds[i]]
-        y_test = [y[k] for k in X_test_folds[i]]
-        knn_y_pred, naive_y_pred, dummy_y_pred, tree_y_pred = classify_using_all_classifiers(knn_k, X_train, y_train, X_test)
-        entire_y_test += y_test
-        entire_knn_y_pred += knn_y_pred
-        entire_naive_y_pred += naive_y_pred
-        entire_dummy_y_pred += dummy_y_pred
-        entire_tree_y_pred += tree_y_pred
-    knn_confusion_matrix = confusion_matrix(entire_y_test, entire_knn_y_pred, labels)
-    naive_confusion_matrix = confusion_matrix(entire_y_test, entire_naive_y_pred, labels)
-    dummy_confusion_matrix = confusion_matrix(entire_y_test, entire_dummy_y_pred, labels)
-    tree_confusion_matrix = confusion_matrix(entire_y_test, entire_tree_y_pred, labels)
-    for i in range(len(labels)):
-        knn_confusion_matrix[i].append(sum(knn_confusion_matrix[i]))
-        naive_confusion_matrix[i].append(sum(naive_confusion_matrix[i]))
-        dummy_confusion_matrix[i].append(sum(dummy_confusion_matrix[i]))
-        tree_confusion_matrix[i].append(sum(tree_confusion_matrix[i]))
-        knn_recognition = 0
-        naive_recognition = 0
-        dummy_recognition = 0
-        tree_recognition = 0
-        for j in range(len(labels)):
-            knn_recognition += knn_confusion_matrix[j][i]
-            naive_recognition += naive_confusion_matrix[j][i]
-            dummy_recognition += dummy_confusion_matrix[j][i]
-            tree_recognition += tree_confusion_matrix[j][i]
-        knn_confusion_matrix[i].append("{:.2f}".format(knn_recognition / len(y) * 100))
-        naive_confusion_matrix[i].append("{:.2f}".format(naive_recognition / len(y) * 100))
-        dummy_confusion_matrix[i].append("{:.2f}".format(dummy_recognition / len(y) * 100))
-        tree_confusion_matrix[i].append("{:.2f}".format(tree_recognition / len(y) * 100))
-    for i in range(len(labels)):
-        knn_confusion_matrix[i].insert(0, labels[i])
-        naive_confusion_matrix[i].insert(0, labels[i])
-        dummy_confusion_matrix[i].insert(0, labels[i])
-        tree_confusion_matrix[i].insert(0, labels[i])
-    return knn_confusion_matrix, naive_confusion_matrix, dummy_confusion_matrix, tree_confusion_matrix
 
 def binary_precision_score(y_true, y_pred, labels=None, pos_label=None):
     """Compute the precision (for binary classification). The precision is the ratio tp / (tp + fp)
