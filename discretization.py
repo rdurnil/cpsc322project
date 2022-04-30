@@ -122,9 +122,60 @@ def wind_dir(value):
         assigned_class = "180 - 270"
     else:
         assigned_class = "> 270"
+    return assigned_class
 
 def wind_speed(value):
     if float(value) <= 1:
         assigned_class = "< 1"
     elif float(value) <= 2:
         assigned_class = "1 - 2"
+    elif float(value) <= 3:
+        assigned_class = "2 - 3"
+    elif float(value) <= 4:
+        assigned_class = "3 - 4"
+    else:
+        assigned_class = "> 4"
+    return assigned_class
+
+def shelter_temp(value):
+    if float(value) <= 20:
+        assigned_class = "< 20"
+    elif float(value) <= 22:
+        assigned_class = "20 - 22"
+    elif float(value) <= 24:
+        assigned_class = "22 - 24"
+    elif float(value) <= 26:
+        assigned_class = "24 - 26"
+    elif float(value) <= 28:
+        assigned_class = "26 - 28"
+    else:
+        assigned_class = "> 28"
+    return assigned_class
+
+def date_time(value):
+    month = str(value)[0:2]
+    if month == "01":
+        assigned_class = "January"
+    elif month == "02":
+        assigned_class = "February"
+    elif month == "03":
+        assigned_class = "March"
+    elif month == "04":
+        assigned_class = "April"
+    elif month == "05":
+        assigned_class = "May"
+    elif month == "06":
+        assigned_class = "June"
+    elif month == "07":
+        assigned_class = "July"
+    elif month == "08":
+        assigned_class = "August"
+    elif month == "09":
+        assigned_class = "September"
+    elif month == "10":
+        assigned_class = "October"
+    elif month == "11":
+        assigned_class = "November"
+    elif month == "12":
+        assigned_class = "December"
+    return assigned_class
