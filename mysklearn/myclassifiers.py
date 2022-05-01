@@ -5,7 +5,7 @@ from mysklearn import myutils
 from mysklearn.mypytable import MyPyTable
 
 
-class MyDecisionTreeClassifier:
+class MyForestDecisionTreeClassifier:
     """Represents a decision tree classifier.
     Attributes:
         X_train(list of list of obj): The list of training instances (samples).
@@ -136,7 +136,7 @@ class MyDecisionTreeClassifier:
         # there is a function np.random.choice()
         values_copy = values[:] # shallow copy
         np.random.shuffle(values_copy) # in place shuffle
-        if self.f_value <= values_copy:
+        if self.f_value <= len(values_copy):
             return values_copy
         else:
             return values_copy[:self.f_value]
@@ -149,7 +149,8 @@ class MyDecisionTreeClassifier:
                 previous_length (int): the number of instances in the previous node in case
                     of a case three
         """
-        attribute = self.select_attribute(current_instances, available_attributes)
+        f_attributes = self.compute_random_subset(available_attributes)
+        attribute = self.select_attribute(current_instances, f_attributes)
         available_attributes.remove(attribute)
         tree = ["Attribute", attribute]
         temp_tree = []
