@@ -235,3 +235,15 @@ def find_largest_value(value_list):
             largest_value = value_list[i]
             index_of_largest_value = i
     return index_of_largest_value
+
+def vote_on_class(class_list):
+    """Takes in a list of class results and returns the most commmon result
+        Args:
+            class_list (list of obj): the list of class results
+        Returns:
+            the class that appeared the most
+    """
+    unique_items = find_unique_items(class_list)
+    unique_count = count_unique_items(class_list, unique_items)
+    vote_index = find_largest_value(unique_count)
+    return unique_items[vote_index]

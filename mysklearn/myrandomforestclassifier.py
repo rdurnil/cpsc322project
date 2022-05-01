@@ -1,4 +1,4 @@
-
+from mysklearn import myutils
 
 class MyRandomForestClassifier:
     """Represents a simple linear regressor.
@@ -48,8 +48,8 @@ class MyRandomForestClassifier:
 
         for i, _ in enumerate(X_test): # this should iterate through the rows
             all_results = []
-            for j, results in enumerate(predicted_values): # this should iterate through was classifier at the row and add the value to a list
+            for j, _ in enumerate(predicted_values): # this should iterate through was classifier at the row and add the value to a list
                 all_results.append(predicted_values[j][i]) # this should append the value from the classifier and the row to the holder list
-            
+            y_predicted.append(myutils.vote_on_class(all_results))
         
-        pass #TODO: Fix this
+        return y_predicted
