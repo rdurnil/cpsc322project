@@ -6,6 +6,7 @@ class MyRandomForestClassifier:
         n_values(int): the number of "weak" classifiers
         m_values(int): the number of "better" learners
         f_values(int): the number of random attribute subsets
+        classifier_forest(lst of decision trees): the decision trees that make up the forest
     """
     def __init__(self, n_val=100, m_val=10, f_val=2):
         """Initializer for MyRandomForestClassifier.
@@ -18,6 +19,7 @@ class MyRandomForestClassifier:
         self.n_value = n_val
         self.m_value = m_val
         self.f_value = f_val
+        self.classifier_forest = None 
 
     def fit(self, X_train, y_train):
         """Creates a random forest of classifiers to X_train and y_train.
@@ -39,4 +41,13 @@ class MyRandomForestClassifier:
         Returns:
             y_predicted(list of numeric vals): The predicted target y values (parallel to X_test)
         """
+        predicted_values = []
+        for i, classifier in enumerate(self.classifier_forest):
+            predicted_values.append(classifier.predict(X_test))
+
+        for i, _ in enumerate(predicted_values[0]):
+            for j, results in enumerate(predicted_values):
+                pass # this is where we go through each classifiers row and vote on 
+                    # the classifiers vote
+        
         pass #TODO: Fix this
