@@ -13,12 +13,15 @@ class MyDecisionTreeClassifier:
         y_train(list of obj): The target y values (parallel to X_train).
             The shape of y_train is n_samples
         tree(nested list): The extracted tree model.
+        header(list): the create attribute names
+        attribute_domains(dict): dictionary of unique values in the columns
+        f_value(int): the number of attributes to calculate entropy for
     Notes:
         Loosely based on sklearn's DecisionTreeClassifier:
             https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html
         Terminology: instance = sample = row and attribute = feature = column
     """
-    def __init__(self):
+    def __init__(self, f_val = 2):
         """Initializer for MyDecisionTreeClassifier.
         """
         self.X_train = None
@@ -26,6 +29,7 @@ class MyDecisionTreeClassifier:
         self.tree = None
         self.header = None
         self.attribute_domains = None
+        self.f_value = f_val
 
     def select_attribute(self, instances, attributes):
         """Selects the attribute to split on using entropy
@@ -128,6 +132,14 @@ class MyDecisionTreeClassifier:
         num_class_vals = myutils.count_unique_items(class_values, unique_classes)
         return unique_classes[myutils.find_largest_value(num_class_vals)]
 
+    def compute_random_subset(self, values):
+        # there is a function np.random.choice()
+        values_copy = values[:] # shallow copy
+        np.random.shuffle(values_copy) # in place shuffle
+        if self.f_value <= values_copy:
+            return values_copy
+        else:
+            return values_copy[:self.f_value]
 
     def tdidt(self, current_instances, available_attributes, previous_length):
         """Recursively creates a decision tree
