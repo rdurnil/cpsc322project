@@ -345,7 +345,7 @@ class MyPyTable:
             col (list): the data to add to each row (must have the same dimension as the table).
         """
         self.column_names.append(col_name)
-        if len(col) != len(self.data):
+        if len(col) != len(self.data) or len(self.data) == 0:
             print("Warning: new column not the same dimension!")
             return
         for i in range(len(self.data)):
