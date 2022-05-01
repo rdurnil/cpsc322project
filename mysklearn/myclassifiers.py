@@ -5,7 +5,7 @@ from mysklearn import myutils
 from mysklearn.mypytable import MyPyTable
 
 
-class MyDecisionTreeClassifier:
+class MyForestDecisionTreeClassifier:
     """Represents a decision tree classifier.
     Attributes:
         X_train(list of list of obj): The list of training instances (samples).
