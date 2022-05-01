@@ -247,3 +247,18 @@ def vote_on_class(class_list):
     unique_count = count_unique_items(class_list, unique_items)
     vote_index = find_largest_value(unique_count)
     return unique_items[vote_index]
+    
+def compute_bootstrapped_sample(table):
+    n = len(table)
+    sample = []
+    for _ in range(n):
+        rand_index = np.random.randint(0, n) # Return random integers from low (inclusive) to high (exclusive)
+        sample.append(rand_index)
+    return sample, compute_validation_set(sample, table)
+
+def compute_validation_set(sampled_set, table):
+    sampled_set = list(set(sampled_set))
+    validation = list(np.arange(0, len(table)))
+    for index in sampled_set:
+        validation.remove(index)
+    return validation

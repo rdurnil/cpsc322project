@@ -1,4 +1,6 @@
 from mysklearn import myutils
+from mysklearn import myevaluation
+from mysklearn.myclassifiers import MyDecisionTreeClassifier
 
 class MyRandomForestClassifier:
     """Represents a simple linear regressor.
@@ -49,8 +51,25 @@ class MyRandomForestClassifier:
         # M best trees based on their performance scores... that is the ensemble
         # 4. using the best M trees, make predictions for each instance in
         # the test set (see step 1) using majority voting
-        
-        pass #TODO: Fix this
+        trees = []
+        tree_accuracy = []
+        for n in range(self.n_value):
+            build_indices, test_indices = myutils.compute_bootstrapped_sample(X_train)
+            X_build, y_build = [], []
+            for index in build_indices:
+                X_build.append(X_train[index])
+                y_build.append(y_train[index])
+            tree = MyDecisionTreeClassifier()
+            tree.fit(X_build, y_build)
+            trees.append(tree)
+            X_test, y_test = [], []
+            for index in test_indices:
+                X_test.append(X_train[index])
+                y_test.append(y_train[index])
+            y_pred = tree.predict(X_test)
+            tree_accuracy.append(myevaluation.accuracy_score(y_test, y_pred, True))  
+        myutils.sort_in_place(tree_accuracy, trees)
+        self.classifier_forest = trees[-self.m_value:]
 
     def predict(self, X_test):
         """Makes predictions for test samples in X_test.
