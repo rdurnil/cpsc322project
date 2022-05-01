@@ -22,14 +22,34 @@ class MyRandomForestClassifier:
         self.classifier_forest = None 
 
     def fit(self, X_train, y_train):
-        """Creates a random forest of classifiers to X_train and y_train.
+        """Creates a random forest of tdidt classifiers to X_train and y_train.
 
         Args:
             X_train(list of list of numeric vals): The list of training samples
                 The shape of X_train is (n_train_samples, n_features)
             y_train(list of numeric vals): The target y values (parallel to X_train)
                 The shape of y_train is n_train_samples
+        Notes:
+            This site makes it seem like we have 
         """
+        # bagging: bootstrap aggregating
+        # an ensemble approach to generating N trees
+        # and choosing the best M from the N trees
+        # (for the ensemble)
+        # basic approach
+        # 1. split your dataset into a test set and a "remainder set"
+        # 2. using the remainder set, sample N (diff N 
+        # than number of instances) bootstrap samples
+        # and use each sample to build a tree
+        # for each tree's sample:
+        #   ~63.2% of instances will be sampled into training set
+        #   ~36.8% of instances will not (form VALIDATION SET)
+        # 3. measure the performance of the tree on the validation set
+        # using a performance metric. then choose to retain the 
+        # M best trees based on their performance scores... that is the ensemble
+        # 4. using the best M trees, make predictions for each instance in
+        # the test set (see step 1) using majority voting
+        
         pass #TODO: Fix this
 
     def predict(self, X_test):
@@ -50,6 +70,6 @@ class MyRandomForestClassifier:
             all_results = []
             for j, _ in enumerate(predicted_values): # this should iterate through was classifier at the row and add the value to a list
                 all_results.append(predicted_values[j][i]) # this should append the value from the classifier and the row to the holder list
-            y_predicted.append(myutils.vote_on_class(all_results))
+            y_predicted.append(myutils.vote_on_class(all_results)) # this takes the list of  class results and returns the voted class lable
         
         return y_predicted
