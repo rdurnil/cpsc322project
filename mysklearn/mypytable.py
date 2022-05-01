@@ -344,12 +344,15 @@ class MyPyTable:
             col_name (string): the column name to add to the header.
             col (list): the data to add to each row (must have the same dimension as the table).
         """
-        self.column_names.append(col_name)
-        if len(col) != len(self.data) or len(self.data) == 0:
+        if not (len(col) == len(self.data) or len(self.data) == 0):
             print("Warning: new column not the same dimension!")
             return
-        for i in range(len(self.data)):
-            self.data[i].append(col[i])
+        if self.data != []:
+            self.column_names.append(col_name)
+            for i in range(len(self.data)):
+                self.data[i].append(col[i])
+        else:
+            self.data = [[col[i]] for i in range(len(col))]
 
     def remove_missing_values(self, list_vals):
         """Remove data from a single column (1D list) that contain a missing value ("NA").
