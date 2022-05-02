@@ -262,3 +262,27 @@ def compute_validation_set(sampled_set, table):
     for index in sampled_set:
         validation.remove(index)
     return validation
+
+def create_empty_list(number_items):
+    """Creates a empty list of a certain length
+        Args:
+            number_items (int): length the empty list needs to be
+        Returns:
+            new_list (list): the new empty list
+    """
+    new_list = []
+    for _ in range(number_items):
+        new_list.append([])
+    return new_list
+
+def create_filled_list(number_items, item):
+    """Creates a list with a specific length where each value is
+    the same value
+        Args:
+            number_items (int): the length of the list
+            number (obj): the items that is in each list slot
+    """
+    new_list = []
+    for _ in range(number_items):
+        new_list.append(item)
+    return new_list
