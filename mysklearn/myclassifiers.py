@@ -136,11 +136,13 @@ class MyDecisionTreeClassifier:
     def compute_random_subset(self, values):
         # there is a function np.random.choice()
         values_copy = values[:] # shallow copy
-        np.random.shuffle(values_copy) # in place shuffle
+        subset = set()
         if self.f_value <= len(values_copy):
             return values_copy
         else:
-            return values_copy[:self.f_value]
+            while(len(subset) < self.f_value):
+                subset.append(values_copy[np.random.randint(0, len(values_copy))])
+            return list(subset)
 
     def tdidt(self, current_instances, available_attributes, previous_length):
         """Recursively creates a decision tree
