@@ -31,5 +31,8 @@ if __name__ == "__main__":
     np.random.seed(0)
     interview_classifier = MyRandomForestClassifier(5, 3, 2)
     interview_classifier.fit(X_train, y_train)
-    
+    for tree in interview_classifier.classifier_forest:
+        tree.print_decision_rules()
+        print()
+    print(interview_classifier.predict(["Junior", "Python", "yes", "yes"]))
 
