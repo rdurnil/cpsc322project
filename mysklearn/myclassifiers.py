@@ -5,7 +5,7 @@ from mysklearn import myutils
 from mysklearn.mypytable import MyPyTable
 
 
-class MyForestDecisionTreeClassifier:
+class MyDecisionTreeClassifier:
     """Represents a decision tree classifier.
     Attributes:
         X_train(list of list of obj): The list of training instances (samples).
@@ -21,7 +21,7 @@ class MyForestDecisionTreeClassifier:
             https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html
         Terminology: instance = sample = row and attribute = feature = column
     """
-    def __init__(self, f_val = 2):
+    def __init__(self, forest=False, f_val = 2):
         """Initializer for MyDecisionTreeClassifier.
         """
         self.X_train = None
@@ -30,6 +30,7 @@ class MyForestDecisionTreeClassifier:
         self.header = None
         self.attribute_domains = None
         self.f_value = f_val
+        self.forest_inclusion = forest
 
     def select_attribute(self, instances, attributes):
         """Selects the attribute to split on using entropy
@@ -149,7 +150,10 @@ class MyForestDecisionTreeClassifier:
                 previous_length (int): the number of instances in the previous node in case
                     of a case three
         """
-        f_attributes = self.compute_random_subset(available_attributes)
+        if self.forest_inclusion is True:
+            f_attributes = self.compute_random_subset(available_attributes)
+        else: 
+            f_attributes = available_attributes
         attribute = self.select_attribute(current_instances, f_attributes)
         available_attributes.remove(attribute)
         tree = ["Attribute", attribute]
