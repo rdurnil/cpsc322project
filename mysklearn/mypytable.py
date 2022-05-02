@@ -352,6 +352,7 @@ class MyPyTable:
             for i in range(len(self.data)):
                 self.data[i].append(col[i])
         else:
+            self.column_names.append(col_name)
             self.data = [[col[i]] for i in range(len(col))]
 
     def remove_missing_values(self, list_vals):
