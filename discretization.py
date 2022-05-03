@@ -15,10 +15,8 @@ def ozone_assigning(ozone_value):
     return assigned_class
 
 def temp_disc(temp):
-    if float(temp) <= -10:
-        assigned_class = "< -10"
-    elif float(temp) <= -5:
-        assigned_class = "-10 - -5"
+    if float(temp) <= -5:
+        assigned_class = "< -5"
     elif float(temp) <= 0:
         assigned_class = "-5 - 0"
     elif float(temp) <= 5:
