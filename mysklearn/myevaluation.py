@@ -1,5 +1,6 @@
 import copy
 import numpy as np
+from tabulate import tabulate
 from mysklearn import myutils
 
 def train_test_split(X, y, test_size=0.33, random_state=None, shuffle=True):
@@ -366,3 +367,55 @@ def binary_f1_score(y_true, y_pred, labels=None, pos_label=None):
     f1 = 2 * (precision * recall) / (precision + recall)
     return f1
 
+# Added for the classification
+def error_rate(y_true, y_pred, normalize=True):
+    """Compute the classification prediction error rate.
+    Args:
+        y_true(list of obj): The ground_truth target y values
+            The shape of y is n_samples
+        y_pred(list of obj): The predicted target y values (parallel to y_true)
+            The shape of y is n_samples
+        normalize(bool): If False, return the number of correctly classified samples.
+            Otherwise, return the fraction of correctly classified samples.
+    Returns:
+        score(float): If normalize == True, return the fraction of correctly classified samples (float),
+            else returns the number of correctly classified samples (int).
+    """
+    number_failed = 0
+    error = 0
+    for i, item in enumerate(y_true):
+        if item != y_pred[i]:
+            number_failed += 1
+    if normalize is True:
+        error = number_failed / len(y_true)
+    else:
+        error = number_failed
+    return error
+
+def create_matrix_table(actual_values, predicted_values, matrix_label, label):
+    """Creates a confusion matrix and uses tabulate to make it pretty
+        Args:
+            actual_values (list of obj): the true values of the dataset
+            predicted_values (list of obj): the predicted values from the classifier
+            matrix_label (list of obj): the unique items in the dataset
+            label (list of obj): the label that goes at the top of the table
+        Returns:
+            table (tabulated table): the confusion matrix in table form
+    """
+    new_table = confusion_matrix(actual_values, predicted_values, matrix_label)
+
+    for i, row in enumerate(new_table):
+        totally_correct = 0
+        total_number = 0
+        for j, value in enumerate(row):
+            total_number += value
+            if i == j:
+                totally_correct = value
+        row.insert(0,matrix_label[i])
+        row.append(total_number)
+        try:
+            row.append((totally_correct/total_number)*100)
+        except:
+            row.append(0)
+    table = tabulate(new_table,headers=label)
+    return table

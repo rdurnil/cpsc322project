@@ -286,3 +286,37 @@ def create_filled_list(number_items, item):
     for _ in range(number_items):
         new_list.append(item)
     return new_list
+
+def perform_classification_on_folds(classifier, x_train, y_train, x_test, y_test):
+    """Classifies the data using the given datasets
+        Args:
+            classifier (obj): the classifier to predict with
+            x_train (list of obj): the training attributes
+            y_train (list of obj): the training classes
+            x_test (list of obj): the testing attributes
+            y_test (list of obj): the testing classes
+        Returns:
+            y_pred (list of obj): the classes predicted by the classifier
+            y_true (list of obj): the expected classes
+    """
+    y_pred = []
+    y_true = []
+    for i, _ in enumerate(x_train):
+        classifier.fit(x_train[i], y_train[i])
+        temp_y_pred = classifier.predict(x_test[i])
+        y_pred.extend(temp_y_pred)
+        y_true.extend(y_test[i])
+    return y_pred, y_true
+
+def indexes_to_values(index_list, data_list):
+    """Takes a list of indexes and makes a list of values that corespond with the indexes
+        Args:
+            index_list (list of int): the list of indexes
+            data_list (list of obj): the list of data that the index list refers to
+        Returns:
+            value_list (list of obj): the list of the values
+    """
+    value_list = []
+    for _, index in enumerate(index_list):
+        value_list.append(data_list[index])
+    return value_list
