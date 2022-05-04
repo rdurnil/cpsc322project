@@ -243,8 +243,17 @@ def vote_on_class(class_list):
         Returns:
             the class that appeared the most
     """
-    unique_items = find_unique_items(class_list)
-    unique_count = count_unique_items(class_list, unique_items)
+    temp_list = class_list[:]
+    none_index = []
+    for i, val in enumerate(temp_list):
+        if val is None:
+            none_index.append(i)
+    none_index.sort(reverse=True)
+    for i, index in enumerate(none_index):
+        temp_list.pop(index)
+
+    unique_items = find_unique_items(temp_list)
+    unique_count = count_unique_items(temp_list, unique_items)
     vote_index = find_largest_value(unique_count)
     return unique_items[vote_index]
     
