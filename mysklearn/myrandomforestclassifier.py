@@ -32,26 +32,7 @@ class MyRandomForestClassifier:
                 The shape of X_train is (n_train_samples, n_features)
             y_train(list of numeric vals): The target y values (parallel to X_train)
                 The shape of y_train is n_train_samples
-        Notes:
-            This site makes it seem like we have 
         """
-        # bagging: bootstrap aggregating
-        # an ensemble approach to generating N trees
-        # and choosing the best M from the N trees
-        # (for the ensemble)
-        # basic approach
-        # 1. split your dataset into a test set and a "remainder set"
-        # 2. using the remainder set, sample N (diff N 
-        # than number of instances) bootstrap samples
-        # and use each sample to build a tree
-        # for each tree's sample:
-        #   ~63.2% of instances will be sampled into training set
-        #   ~36.8% of instances will not (form VALIDATION SET)
-        # 3. measure the performance of the tree on the validation set
-        # using a performance metric. then choose to retain the 
-        # M best trees based on their performance scores... that is the ensemble
-        # 4. using the best M trees, make predictions for each instance in
-        # the test set (see step 1) using majority voting
         np.random.seed(0)
         trees = []
         tree_accuracy = []
