@@ -89,6 +89,7 @@ class MyRandomForestClassifier:
             all_results = []
             for j, _ in enumerate(predicted_values): # this should iterate through was classifier at the row and add the value to a list
                 all_results.append(predicted_values[j][i]) # this should append the value from the classifier and the row to the holder list
+            print(all_results)
             y_predicted.append(myutils.vote_on_class(all_results)) # this takes the list of  class results and returns the voted class lable
 
         return y_predicted
