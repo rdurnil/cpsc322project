@@ -27,11 +27,74 @@ X_train = [
 
 y_train = ["False", "False", "True", "True", "True", "False", "True", "False", "True", "True", "True", "True", "True", "False"]
 
-if __name__ == "__main__":
-    np.random.seed(0)
-    interview_classifier = MyRandomForestClassifier(5, 3, 2)
-    interview_classifier.fit(X_train, y_train)
+interview_classifier = MyRandomForestClassifier(7, 3, 2)
+interview_classifier.fit(X_train, y_train)
+
+def test_myrandomforestclassifier_fit():
+    # with seed 0
+    best_trees = [['Attribute', 'att0', 
+                    ['Value', 'Junior', 
+                        ['Leaf', 'True', 3, 14]
+                    ], 
+                    ['Value', 'Mid', 
+                        ['Leaf', 'True', 4, 14]
+                    ], 
+                    ['Value', 'Senior', 
+                        ['Attribute', 'att2', 
+                            ['Value', 'no', 
+                                ['Leaf', 'False', 5, 7]
+                            ], 
+                            ['Value', 'yes', 
+                                ['Leaf', 'True', 2, 7]
+                            ]
+                        ]
+                    ]
+                    ],
+                    ['Attribute', 'att3', 
+                        ['Value', 'no', 
+                            ['Leaf', 'True', 10, 14]
+                        ], 
+                        ['Value', 'yes', 
+                            ['Attribute', 'att0', 
+                                ['Value', 'Junior', 
+                                    ['Leaf', 'False', 1, 4]
+                                ], 
+                                ['Value', 'Mid', 
+                                    ['Leaf', 'True', 2, 4]
+                                ], 
+                                ['Value', 'Senior', 
+                                    ['Leaf', 'True', 1, 4]
+                                ]
+                            ]
+                        ]
+                    ],
+                    ['Attribute', 'att0', 
+                        ['Value', 'Junior', 
+                            ['Leaf', 'True', 5, 14]
+                        ], 
+                        ['Value', 'Mid', 
+                            ['Leaf', 'True', 2, 14]
+                        ], 
+                        ['Value', 'Senior', 
+                            ['Attribute', 'att2', 
+                                ['Value', 'no', 
+                                    ['Leaf', 'False', 6, 7]
+                                ], 
+                                ['Value', 'yes', 
+                                    ['Leaf', 'True', 1, 7]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
     for tree in interview_classifier.classifier_forest:
-        print(tree.tree)
-    print(interview_classifier.predict([["Junior", "Python", "yes", "yes"]]))
+        assert tree.tree in best_trees
+
+def test_myrandomforestclassifier_predict():
+    X_test = [["Senior", "R", "no", "no"], ["Mid", "Python", "yes", "no"], ["Junior", "R", "no", "yes"]]
+    y_pred_desk_calc = ["False", "True", "True"]
+    y_pred = interview_classifier.predict(X_test)
+    assert y_pred == y_pred_desk_calc
+
+    
 
