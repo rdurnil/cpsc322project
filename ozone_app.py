@@ -1,6 +1,7 @@
 import os
 import pickle
 from flask import Flask, jsonify, request
+from mysklearn.myclassifiers import MyKNeighborsClassifier
 
 app = Flask(__name__)
 @app.route("/", methods=["GET"])
@@ -27,6 +28,7 @@ def predict():
 def predict_ozone(instance):
     infile = open("trained_knn.p", "rb")
     knn_classifier = pickle.load(infile)
+    knn_classifier = MyKNeighborsClassifier(knn_classifier)
     infile.close()
 
     print("neighbors:", knn_classifier.n_neighbors)

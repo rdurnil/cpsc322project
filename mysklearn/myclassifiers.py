@@ -4,7 +4,7 @@ import numpy as np
 from mysklearn import myutils
 from mysklearn.mypytable import MyPyTable
 
-
+ 
 class MyDecisionTreeClassifier:
     """Represents a decision tree classifier.
     Attributes:

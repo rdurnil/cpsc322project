@@ -12,6 +12,6 @@ knn_classifier = MyKNeighborsClassifier()
 knn_classifier.fit(X_data_table.data, y_data)
 
 packaged_obj = [knn_classifier]
-outfile = open("knn_classifier.p", "wb") # binary
+outfile = open("trained_knn.p", "wb") # binary
 pickle.dump(packaged_obj, outfile)
 outfile.close()
