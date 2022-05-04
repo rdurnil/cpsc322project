@@ -10,7 +10,6 @@ def index():
 
 @app.route("/predict", methods=["GET"])
 def predict():
-    month = request.args.get("month", "")
     temp = request.args.get("temp", "")
     humidity = request.args.get("humidity", "")
     radiation = request.args.get("radiation", "")
@@ -19,7 +18,7 @@ def predict():
     winddir = request.args.get("winddir", "")
     shelter = request.args.get("shelter", "")
 
-    prediction = predict_ozone([month, temp, humidity, radiation, precip, windspeed, winddir, shelter])
+    prediction = predict_ozone([float(temp), float(humidity), float(radiation), float(precip), float(windspeed), float(winddir), float(shelter)])
     if prediction is not None:
         result = {"Predicted Ozone Level": prediction}
         return jsonify(result), 200
@@ -28,7 +27,6 @@ def predict():
 def predict_ozone(instance):
     infile = open("trained_knn.p", "rb")
     knn_classifier = pickle.load(infile)
-    knn_classifier = MyKNeighborsClassifier(knn_classifier)
     infile.close()
 
     print("neighbors:", knn_classifier.n_neighbors)
