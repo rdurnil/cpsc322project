@@ -36,10 +36,8 @@ def temp_disc(temp):
     return assigned_class
 
 def humidity_disc(humidity):
-    if float(humidity) <= 10:
-        assigned_class = "< 10"
-    elif float(humidity) <= 20:
-        assigned_class = "10 - 20"
+    if float(humidity) <= 20:
+        assigned_class = "< 20"
     elif float(humidity) <= 30:
         assigned_class = "20 - 30"
     elif float(humidity) <= 40:
@@ -105,10 +103,8 @@ def wind_speed(value):
         assigned_class = "2 - 3"
     elif float(value) <= 4:
         assigned_class = "3 - 4"
-    elif float(value) <= 5:
-        assigned_class = "4 - 5"
     else:
-        assigned_class = "> 5"
+        assigned_class = "> 4"
     return assigned_class
 
 def wind_dir(value):
@@ -129,10 +125,8 @@ def wind_speed(value):
         assigned_class = "1 - 2"
     elif float(value) <= 3:
         assigned_class = "2 - 3"
-    elif float(value) <= 4:
-        assigned_class = "3 - 4"
     else:
-        assigned_class = "> 4"
+        assigned_class = "> 3"
     return assigned_class
 
 def shelter_temp(value):
