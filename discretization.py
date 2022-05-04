@@ -72,26 +72,16 @@ def radiation(value):
     return assigned_class
 
 def precipitation(value):
-    if float(value) <= 1:
-        assigned_class = "< 1"
-    elif float(value) <= 2:
-        assigned_class = "1 - 2"
-    elif float(value) <= 3:
-        assigned_class = "2 - 3"
+    if float(value) <= 2:
+        assigned_class = "< 2"
     elif float(value) <= 4:
-        assigned_class = "3 - 4"
-    elif float(value) <= 5:
-        assigned_class = "4 - 5"
+        assigned_class = "2 - 4"
     elif float(value) <= 6:
-        assigned_class = "5 - 6"
-    elif float(value) <= 7:
-        assigned_class = "6 - 7"
+        assigned_class = "4 - 6"
     elif float(value) <= 8:
-        assigned_class = "7 - 8"
-    elif float(value) <= 9:
-        assigned_class = "8 - 9"
+        assigned_class = "6 - 8"
     else:
-        assigned_class = "> 9"
+        assigned_class = "> 8"
     return assigned_class
 
 def wind_speed(value):
